@@ -16,6 +16,7 @@ namespace NetCoreJwt.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            var user = User;
             return new string[] { "value1", "value2" };
         }
 

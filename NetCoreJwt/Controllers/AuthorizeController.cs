@@ -30,7 +30,7 @@ namespace NetCoreJwt.Controllers
                  {
                      var claims = new Claim[] {
                          new Claim(ClaimTypes.Name, login.UserName),
-                         new Claim(ClaimTypes.Role, "admin, Manage")
+                         new Claim(ClaimTypes.Role, "admin")
                      };
                      var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(setting.SecretKey));
                      var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

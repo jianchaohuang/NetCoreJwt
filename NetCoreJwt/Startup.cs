@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using NetCoreJwt.Filters;
 using NetCoreJwt.Models;
 
 namespace NetCoreJwt
@@ -38,15 +39,16 @@ namespace NetCoreJwt
                 option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(config =>
             {
-                /**/
+                /*
                 config.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                 {
                     ValidAudience = setting.Audience,
                     ValidIssuer = setting.Issuer,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(setting.SecretKey))
                 };
-                
-                /*
+                */
+
+                /**/
                 config.SecurityTokenValidators.Clear();
                 config.SecurityTokenValidators.Add(new MyTokenValidate());
                 config.Events = new JwtBearerEvents()
@@ -59,9 +61,11 @@ namespace NetCoreJwt
                     }
 
                 };
-                */
+                
             });
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(options=> {
+                options.Filters.Add<CheckPermissionFilter>();
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
